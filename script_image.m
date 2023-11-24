@@ -2,9 +2,7 @@ clear all;
 clc
 close all;
 
-%%
-
-%Images 
+%% Old images
 
 image_eva = imread('C:\Users\utente\Pictures\Saved Pictures\eva01.jpg');
 image_test = imread('C:\Users\utente\Downloads\Test_image.bmp');
@@ -23,13 +21,21 @@ taglio_foto_convessi = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Pr
 taglio_foto_convessi_senza_bordi = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_vecchie\taglio_foto_convessi_senza_bordi.bmp');
 %[max_intensity, min_intensity, mean_intensity, standard_deviation, num_dots,dots_size, white_space] = image_analysis(image_button_allineated,300,true);
 
-layers = 2;
+
+%% New images
+%% Set all images to the photos in folder Foto_nuove
+image1 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_1.bmp');
+image2 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_2.bmp');
+image3 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_3.bmp');
+image4 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_4.bmp');
+image5 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_5.bmp');
+image6 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_6.bmp');
+image7 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_7.bmp');
+image8 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottoni_8.bmp');
 
 %% Setup image
 
-% figure();
-% imshow(convessa_cut);
-
+layers = 2;
 image = setup_image(image_button_allineated);
 
 figure();
