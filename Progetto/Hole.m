@@ -3,10 +3,22 @@ classdef Hole
     %   Detailed explanation goes here
 
     properties
-        row 
-        col
-        height
-        width
+        %Pixel measurements after processing
+%         row
+%         col
+%         %Useful only to find the coordinates
+%         height
+%         width
+        %Pixel measurements with calibration, every point has x y
+        p1
+        p2
+        p3
+        %Millimeter measurements of points
+        m1
+        m2
+        m3
+        %Diameter
+        diameter
     end
 
     methods

@@ -1,12 +1,14 @@
 %%
 
 clear all;
-clc
 close all;
+
+%Loads data for calibration
+load('BaslerOttica12.mat');
+load("Calibrazione025.mat");
 
 %% Old images
 
-image_eva = imread('C:\Users\utente\Pictures\Saved Pictures\eva01.jpg');
 image_test = imread('C:\Users\utente\Downloads\Test_image.bmp');
 image_button = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_vecchie\Foto_luce.bmp');
 image_button_allineated = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_vecchie\allineati.bmp');
@@ -41,18 +43,27 @@ image12 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\
 image13 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto5.bmp'); %OK
 image14 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto6.bmp'); %OK
 
+%% More color buttons
+pink_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottone_rosa.bmp');
+pink_red_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_rosa_rosso.bmp');
+blue_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_blu.bmp');
+red_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_rosso.bmp');
+amarillo_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_amarillo.bmp');
 %% Setup image
 layers = 2;
-image = setup_image(image10);
+%Remove for aesthetical image with bounding boxes
+% calibrazione 25 quella piu' piccola di tutte
+[image,~]=undistortImage(image7,Calibrazione025,OutputView="full");
+image = setup_image(image);
 
-figure();
-imshow(image);
+% figure();
+% imshow(image);
 
 image = auto_crop(image, 100,100,1600,1600,true);
 %image = auto_crop(image,200,800,1300,1500,true);
 
-figure();
-imshow(image);
+% figure();
+% imshow(image);
 
 %% Segmentation
 
@@ -65,22 +76,108 @@ strel_rectangle = strel('rectangle',[5 5]);
 
 %Smaller disturbs
 strel_rectangle2 = strel('rectangle',[2 2]);
+%% immagine di zero - calibrazione marker piccolo (25%)
+
+checker_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Calibrazione\Cal2_1.bmp');
+[checker_image,new_origin]=undistortImage(checker_image,BaslerOttica12,OutputView="full");
 
 %% Processing Layers
 
 buttons = [];
+bounded_boxes = [];
+
 for i=1:layers
-    buttons = [buttons;processing_objects(mask(:,:,i),i,true)];
+    [actual_buttons_layer,bb] = processing_objects(mask(:,:,i),i,true,new_origin);
+    bounded_boxes = [bounded_boxes;bb];
+    if(not(isempty(actual_buttons_layer)))
+        buttons = [buttons;actual_buttons_layer];
+    end
     %processing_objects(mask(:,:,i),strel_rectangle,strel_rectangle2,i,true);
 end
 
+Ishape = insertShape(im2uint8(image),'rectangle',bounded_boxes,'LineWidth',4,Color='r');
+figure()
+imshow(Ishape)
+
 %% Processing background
 
-buttons = processing_holes(mask,buttons,strel_rectangle,strel_rectangle2,layers);
+buttons = processing_holes(mask,buttons,strel_rectangle,strel_rectangle2,layers,new_origin);
 
-for j=1:length(buttons)
-    buttons(j)
+%% Calibration
+[image_points, board_size] = detectCheckerboardPoints(checker_image);
+image_points = image_points + new_origin;
+% world points devono essere gli stessi dello zero usato nell'immagine
+% checker image
+extrinsics = estimateExtrinsics(image_points,BaslerOttica12.WorldPoints, BaslerOttica12.Intrinsics);
+
+for i=1:length(buttons)
+    %Buttons coordinates
+    buttons(i).m1 = img2world2d(buttons(i).p1,extrinsics,BaslerOttica12.Intrinsics);
+    buttons(i).m2 = img2world2d(buttons(i).p2,extrinsics,BaslerOttica12.Intrinsics);
+    buttons(i).m3 = img2world2d(buttons(i).p3,extrinsics,BaslerOttica12.Intrinsics);
+
+    for j=1:length(buttons(i).holes)
+        buttons(i).holes(j).m1 = img2world2d(buttons(i).holes(j).p1,extrinsics,BaslerOttica12.Intrinsics);
+        buttons(i).holes(j).m2 = img2world2d(buttons(i).holes(j).p2,extrinsics,BaslerOttica12.Intrinsics);
+        buttons(i).holes(j).m3 = img2world2d(buttons(i).holes(j).p3,extrinsics,BaslerOttica12.Intrinsics);
+    end
+end
+
+%% Diameter calculus
+
+for i=1:length(buttons)
+    %Buttons coordinates
+    for j=1:length(buttons(i).holes)
+        buttons(i).holes(j) = diameter_calculus_holes(buttons(i).holes(j));
+    end
+    buttons(i) = diameter_calculus_buttons(buttons(i));
 end
 
 
+buttons = pixel_test(buttons);
+
 %% Classification types
+
+types = [];
+for i=1:length(buttons)
+    type_exist = false;
+    for j=1:length(types)
+        diff_buttons = abs(types(j).average_button_diameter-buttons(i).button_diameter);
+        delta_buttons = 0.05*types(j).average_button_diameter;
+        if(types(j).color == buttons(i).color && types(j).number_holes == buttons(i).number_holes && diff_buttons<delta_buttons )
+            type_exist = true;
+            buttons(i).type = j;
+            types(j).average_button_diameter = ((types(j).average_button_diameter * types(j).number_buttons)+buttons(i).button_diameter)/(types(j).number_buttons+1);
+            types(j).average_hole_diameter = ((types(j).average_hole_diameter * types(j).number_buttons)+buttons(i).hole_diameter)/(types(j).number_buttons+1);
+            types(j).number_buttons = types(j).number_buttons + 1;
+        end
+    end
+    
+    if(~type_exist)
+        types = [types;Type];
+        types(length(types)).color = buttons(i).color;
+        types(length(types)).average_button_diameter = buttons(i).button_diameter;
+        types(length(types)).average_hole_diameter = buttons(i).hole_diameter;
+        types(length(types)).number_holes = buttons(i).number_holes;
+        types(length(types)).number_buttons = 1;
+        buttons(i).type = length(types);
+    end
+end
+
+%%
+
+DB1 = 11.41;
+DH1 = 1.76;
+DB2 = 14.85;
+DH2 = 2.16;
+DB3 = 17.46;
+DH3 = 2.20;
+
+D=[11.45,1.74,14.85,2.16,17.58,2.2];
+deltas = [];
+k = 1;
+for i=1:length(types)
+    deltas = [deltas;(abs(D(k)-types(i).average_button_diameter)/D(k))*100];
+    deltas = [deltas;(abs(D(k+1)-types(i).average_hole_diameter)/D(k+1))*100];
+    k= k + 2;
+end

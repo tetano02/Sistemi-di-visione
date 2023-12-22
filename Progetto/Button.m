@@ -4,13 +4,27 @@ classdef Button
 
     properties
         color
-        row
-        col
-        %Useful only to find the coordinates
-        height
-        width
+        %Pixel measurements after processing
+%         row
+%         col
+%         %Useful only to find the coordinates
+%         height
+%         width
+        %Pixel measurements with calibration, every point has x y
+        p1
+        p2
+        p3
+        %Millimeter measurements of points
+        m1
+        m2
+        m3
+        %Diameter
+        button_diameter
+        hole_diameter
+        %Holes
         number_holes
         holes Hole
+        type
     end
 
     %% FAI COSE METODI
