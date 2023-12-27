@@ -19,6 +19,8 @@ classdef Hole
         m3
         %Diameter
         diameter
+        %Bounding box
+        bb
     end
 
     methods

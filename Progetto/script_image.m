@@ -5,7 +5,7 @@ close all;
 
 %Loads data for calibration
 load('BaslerOttica12.mat');
-load("Calibrazione025.mat");
+load("BaslerOttica12.mat");
 
 %% Old images
 
@@ -42,18 +42,51 @@ image11 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\
 image12 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto4_attaccati.bmp'); %Not works with two buttons so close
 image13 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto5.bmp'); %OK
 image14 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto6.bmp'); %OK
-
+ 
+image15 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_1.bmp'); %OK
+image16 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_2.bmp'); %OK
+image17 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_3.bmp'); %OK
+image18 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_4.bmp'); %OK
+image19 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_5.bmp'); %OK
+image20 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_6.bmp'); %OK
+image21 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_7.bmp'); %OK
+image22 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Foto_per_incertezza\img_8.bmp'); %OK
+image23 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_9.bmp'); %OK
+image24 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_10.bmp'); %OK
+image25 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_11.bmp');
+image26 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_12.bmp');
+image27 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_13.bmp'); %NO, no holes
+image28 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_14.bmp'); %NO, no holes
+image29 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_15.bmp'); %NO, no holes
+image30 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_16.bmp'); %NO, no holes
+image31 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_17.bmp'); %SNI
+image32 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_18.bmp'); 
+image33 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_19.bmp');
+image34 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_20.bmp'); %SNI
+image35 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_21.bmp');
+image36 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_22.bmp');
+image37 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_23.bmp');
+image38 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_24.bmp');
+image39 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\foto_nuove\Foto_per_incertezza\img_25.bmp');
 %% More color buttons
 pink_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Foto_nuove\Bottone_rosa.bmp');
 pink_red_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_rosa_rosso.bmp');
 blue_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_blu.bmp');
+blue2 = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\blu_2.bmp');
 red_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_rosso.bmp');
 amarillo_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\foto_bottoni\Foto_nuove\Bottone_amarillo.bmp');
+
 %% Setup image
 layers = 2;
+original_image = image39;
+s = size(original_image);
+if(s(1)<1944)
+    original_image = fix_image(original_image);
+end
+
 %Remove for aesthetical image with bounding boxes
 % calibrazione 25 quella piu' piccola di tutte
-[image,~]=undistortImage(image7,Calibrazione025,OutputView="full");
+[image,~]=undistortImage(original_image,BaslerOttica12,OutputView="full");
 image = setup_image(image);
 
 % figure();
@@ -68,14 +101,6 @@ image = auto_crop(image, 100,100,1600,1600,true);
 %% Segmentation
 
 mask = segmentation(image,layers);
-
-%% Strel creation
-
-%Bigger disturbs
-strel_rectangle = strel('rectangle',[5 5]);
-
-%Smaller disturbs
-strel_rectangle2 = strel('rectangle',[2 2]);
 %% immagine di zero - calibrazione marker piccolo (25%)
 
 checker_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo semestre\Sistemi di visione\Foto_Bottoni\Calibrazione\Cal2_1.bmp');
@@ -84,24 +109,24 @@ checker_image = imread('C:\Users\utente\Desktop\Unibs\Unibs\Terzo anno\Primo sem
 %% Processing Layers
 
 buttons = [];
-bounded_boxes = [];
+bounded_boxes_buttons = [];
 
 for i=1:layers
     [actual_buttons_layer,bb] = processing_objects(mask(:,:,i),i,true,new_origin);
-    bounded_boxes = [bounded_boxes;bb];
+    bounded_boxes_buttons = [bounded_boxes_buttons;bb];
     if(not(isempty(actual_buttons_layer)))
         buttons = [buttons;actual_buttons_layer];
     end
     %processing_objects(mask(:,:,i),strel_rectangle,strel_rectangle2,i,true);
 end
 
-Ishape = insertShape(im2uint8(image),'rectangle',bounded_boxes,'LineWidth',4,Color='r');
-figure()
-imshow(Ishape)
+% Ishape = insertShape(im2uint8(image),'rectangle',bounded_boxes,'LineWidth',4,Color='r');
+% figure()
+% imshow(Ishape)
 
 %% Processing background
 
-buttons = processing_holes(mask,buttons,strel_rectangle,strel_rectangle2,layers,new_origin);
+[buttons,bounded_boxes_holes] = processing_holes(mask,buttons,layers,new_origin);
 
 %% Calibration
 [image_points, board_size] = detectCheckerboardPoints(checker_image);
@@ -164,6 +189,8 @@ for i=1:length(buttons)
     end
 end
 
+%%
+original_image = plotter_function(original_image,buttons);
 %%
 
 DB1 = 11.41;

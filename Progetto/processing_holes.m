@@ -1,11 +1,11 @@
-function [buttons_modified] = processing_holes(mask,buttons,strel1,strel2,layers, new_origin)
+function [buttons_modified,bounded_boxes_holes] = processing_holes(mask,buttons,layers, new_origin)
 
     image_mask = imbinarize(im2uint8(mask(:,:,layers+1)));
 
-    %Erosion after imlocalbrighten
-    image_mask = imerode(image_mask,strel1);
-    image_mask = imerode(image_mask,strel2);
-
+    image_mask = erosion(image_mask);
+    image_mask = areaopen(image_mask,false);
+    
+    bounded_boxes_holes = [];
     for i=1:length(buttons)
         width = buttons(i).p3(1)-buttons(i).p1(1);
         height = buttons(i).p2(2)-buttons(i).p1(2);
@@ -20,6 +20,7 @@ function [buttons_modified] = processing_holes(mask,buttons,strel1,strel2,layers
     
         bb = table2array(blobs(:,"BoundingBox"));
         bb = bb + [new_origin,0,0];
+        bounded_boxes_holes = [bounded_boxes_holes;bb];
 
         dim = size(bb);
         buttons(i).number_holes = dim(1);
@@ -32,7 +33,7 @@ function [buttons_modified] = processing_holes(mask,buttons,strel1,strel2,layers
             buttons(i).holes(k).p2=[bb(k,1) bb(k,2)+bb(k,4)];
             %Point 3 high right
             buttons(i).holes(k).p3=[bb(k,1)+bb(k,3) bb(k,2)];
-
+            buttons(i).holes(k).bb = bb(k,:);
 %             buttons(i).holes(k).col = bb(k,1);
 %             buttons(i).holes(k).row = bb(k,2);
 %             buttons(i).holes(k).width = bb(k,3);

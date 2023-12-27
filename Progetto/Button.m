@@ -25,6 +25,7 @@ classdef Button
         number_holes
         holes Hole
         type
+        bb
     end
 
     %% FAI COSE METODI
